@@ -6,7 +6,17 @@ if (!MONGODB_URI) {
   throw new Error('❌ MONGODB_URI ไม่ถูกตั้งค่าใน .env.local');
 }
 
-let cached = (global as any).mongoose || { conn: null };
+type MongooseCache = {
+  conn: typeof import('mongoose') | null
+}
+
+declare global {
+  var mongoose: MongooseCache
+}
+
+let cached: MongooseCache = global.mongoose || { conn: null }
+global.mongoose = cached
+
 
 export default async function connectDB() {
   if (cached.conn) return cached.conn;
