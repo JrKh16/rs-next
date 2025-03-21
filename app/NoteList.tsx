@@ -1,4 +1,5 @@
-'use client'
+'use client' // ✅ ต้องมี!
+
 import { useState, useTransition } from 'react'
 import { deleteNote, updateNote } from './actions'
 

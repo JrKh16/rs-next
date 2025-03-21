@@ -1,4 +1,3 @@
-// ✅ Client Component (app/NotesClient.tsx)
 'use client'
 
 import { createNote } from './actions' // ❌ ทำแบบนี้ไม่ได้

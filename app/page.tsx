@@ -1,10 +1,10 @@
 import { getServerSession } from 'next-auth'
-import { authOptions } from './api/auth/[...nextauth]/route'
+import { authOptions } from '@/app/api/auth/[...nextauth]/route'
 import connectDB from '@/lib/mongodb'
 import Note from '@/models/Note'
-import { createNote } from './actions'
-import NoteList from './NoteList'
+import { createNote } from '../actions'
 import Link from 'next/link'
+import NoteList from './NoteList' // ✅ หลังจากแก้ client แล้ว import ได้
 
 export default async function Page() {
   const session = await getServerSession(authOptions)
