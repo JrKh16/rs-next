@@ -1,26 +1,27 @@
-import mongoose from 'mongoose';
+import mongoose from 'mongoose'
 
-const MONGODB_URI = process.env.MONGODB_URI!;
+const MONGODB_URI = process.env.MONGODB_URI!
 
 if (!MONGODB_URI) {
-  throw new Error('❌ MONGODB_URI ไม่ถูกตั้งค่าใน .env.local');
+  throw new Error('MONGODB_URI not defined in .env.local')
 }
 
 type MongooseCache = {
-  conn: typeof import('mongoose') | null
+  conn: typeof mongoose | null
 }
 
 declare global {
-  var mongoose: MongooseCache
+  // 👇 สร้าง global type แบบปลอดภัย
+  var mongoose: MongooseCache | undefined
 }
 
-let cached: MongooseCache = global.mongoose || { conn: null }
-global.mongoose = cached
+const globalMongoose = globalThis as typeof globalThis & { mongoose?: MongooseCache }
 
+const cached: MongooseCache = globalMongoose.mongoose || { conn: null }
+globalMongoose.mongoose = cached
 
 export default async function connectDB() {
-  if (cached.conn) return cached.conn;
-  cached.conn = await mongoose.connect(MONGODB_URI);
-  (global as any).mongoose = cached;
-  return cached.conn;
+  if (cached.conn) return cached.conn
+  cached.conn = await mongoose.connect(MONGODB_URI)
+  return cached.conn
 }

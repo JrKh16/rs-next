@@ -1,6 +1,7 @@
 'use client'
 
-import { createNote } from './actions' // ❌ ทำแบบนี้ไม่ได้
+import Note from '@/models/Note' 
+
 
 interface Note {
     _id: string
@@ -8,9 +9,5 @@ interface Note {
     createdAt: string
 }
 export default function NotesClient({ notes }: { notes: any[] }) {
-    return (
-        <form action={createNote}> {/* ❌ จะ error แบบที่คุณเจอ */}
-            ...
-        </form>
-    )
-}
+    return <div>...</div>
+  }
