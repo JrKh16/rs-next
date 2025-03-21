@@ -3,7 +3,7 @@ import mongoose from 'mongoose'
 const MONGODB_URI = process.env.MONGODB_URI!
 
 if (!MONGODB_URI) {
-  throw new Error('MONGODB_URI not defined in .env.local')
+  throw new Error('Please define the MONGODB_URI environment variable')
 }
 
 type MongooseCache = {
@@ -11,11 +11,13 @@ type MongooseCache = {
 }
 
 declare global {
-  // 👇 สร้าง global type แบบปลอดภัย
+  // 👇 declare global cache ตัวแปร mongoose
   var mongoose: MongooseCache | undefined
 }
 
-const globalMongoose = globalThis as typeof globalThis & { mongoose?: MongooseCache }
+const globalMongoose = globalThis as typeof globalThis & {
+  mongoose?: MongooseCache
+}
 
 const cached: MongooseCache = globalMongoose.mongoose || { conn: null }
 globalMongoose.mongoose = cached
